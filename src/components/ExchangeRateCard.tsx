@@ -1,6 +1,6 @@
 'use client';
 
-import { Card, CardContent, CardHeader, Divider, FormControlLabel, Switch, TextField, Tooltip } from '@mui/material';
+import { Card, CardContent, CardHeader, Divider, FormControlLabel, Snackbar, Switch, TextField, Tooltip } from '@mui/material';
 import ArrowUpwardIcon from '@mui/icons-material/ArrowUpward';
 import ArrowDownwardIcon from '@mui/icons-material/ArrowDownward';
 import RemoveIcon from '@mui/icons-material/Remove';
@@ -10,7 +10,7 @@ import { UseExchangeRateResult } from '@/hooks/useExchangeRate';
 import clsx from 'clsx';
 
 export default function ExchangeRateCard({ exchange }: { exchange: UseExchangeRateResult }) {
-  const { real, used, trend, isFixedEnabled, fixedRate, setFixedRate, setFixedEnabled, lastUpdatedAt } = exchange;
+  const { real, used, trend, isFixedEnabled, fixedRate, setFixedRate, setFixedEnabled, lastUpdatedAt, autoDisabled, clearAutoDisabled } = exchange;
 
   const [fixedInput, setFixedInput] = useState<string>(fixedRate != null ? String(fixedRate) : '');
   const [isMounted, setIsMounted] = useState(false);
@@ -90,12 +90,18 @@ export default function ExchangeRateCard({ exchange }: { exchange: UseExchangeRa
                 setFixedRate(n);
               }
             }}
-            disabled={!isFixedEnabled}
             helperText={helper}
             fullWidth
           />
         </CardContent>
       </Card>
+
+      <Snackbar
+        open={autoDisabled}
+        onClose={clearAutoDisabled}
+        autoHideDuration={3500}
+        message="Taux fixe désactivé automatiquement (écart > 2% du taux réel)"
+      />
     </>
   );
 }

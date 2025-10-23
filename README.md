@@ -7,6 +7,7 @@ Single Page Application mobile-first de conversion de devises construite avec Ne
 - **Taux de change dynamique** : Taux EUR/USD initialisé à 1.1, actualisé toutes les 3 secondes avec une variation aléatoire de ±0.05
 - **Indicateur de tendance** : Affichage visuel de la tendance (↑/↓/–) avec animation
 - **Taux fixe optionnel** : Possibilité de forcer un taux de change personnalisé
+- **Désactivation automatique** : Si le taux fixé diffère de plus de 2% du taux réel, retour automatique au taux réel avec notification
 - **Conversion bidirectionnelle** : Inversion EUR ↔ USD en un clic, l'ancienne sortie devient la nouvelle entrée
 - **Responsive mobile-first** : Interface optimisée pour mobile (cartes empilées) et desktop (grille 2 colonnes, tableau)
 - **Accessibilité** : Labels ARIA, annonces live, navigation clavier, inputMode pour claviers mobiles

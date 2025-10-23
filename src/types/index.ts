@@ -10,6 +10,7 @@ export interface ExchangeRate {
   fixedRate: number | null;   // Valeur de taux fixe si activée
   trend: Trend;               // Indicateur de tendance
   lastUpdatedAt: number;      // Timestamp ms
+  autoDisabled: boolean;      // Flag si désactivation auto (écart > 2%)
 }
 
 export interface ConversionHistoryItem {

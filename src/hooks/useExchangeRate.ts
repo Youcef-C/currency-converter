@@ -12,17 +12,21 @@ export interface UseExchangeRateResult {
   setFixedRate: (v: number | null) => void;
   setFixedEnabled: (v: boolean) => void;
   lastUpdatedAt: number;
+  autoDisabled: boolean;
+  clearAutoDisabled: () => void;
 }
 
 const TICK_MS = 3000;
 const INITIAL_REAL = 1.1;
 const MAX_STEP = 0.05; // ±0.05
+const MAX_REL_DEV = 0.02; // 2%
 
 export function useExchangeRate(): UseExchangeRateResult {
   const [real, setReal] = useState<number>(INITIAL_REAL);
   const [lastReal, setLastReal] = useState<number>(INITIAL_REAL);
   const [isFixedEnabled, setIsFixedEnabled] = useState<boolean>(false);
   const [fixedRate, setFixedRateState] = useState<number | null>(null);
+  const [autoDisabled, setAutoDisabled] = useState<boolean>(false);
   const [lastUpdatedAt, setLastUpdatedAt] = useState<number>(Date.now());
 
   const intervalRef = useRef<number | null>(null);
@@ -53,6 +57,8 @@ export function useExchangeRate(): UseExchangeRateResult {
     setIsFixedEnabled(v);
   }, [fixedRate, real]);
 
+  const clearAutoDisabled = useCallback(() => setAutoDisabled(false), []);
+
 
   useEffect(() => {
     // Tick de mise à jour du taux réel
@@ -74,6 +80,16 @@ export function useExchangeRate(): UseExchangeRateResult {
     };
   }, []);
 
+  useEffect(() => {
+    // Désactivation auto si écart > 2% entre fixed et real
+    if (isFixedEnabled && fixedRate != null) {
+      const dev = percentDiff(fixedRate, real);
+      if (dev > MAX_REL_DEV) {
+        setIsFixedEnabled(false);
+        setAutoDisabled(true);
+      }
+    }
+  }, [real, isFixedEnabled, fixedRate]);
 
   return {
     real,
@@ -84,5 +100,7 @@ export function useExchangeRate(): UseExchangeRateResult {
     setFixedRate,
     setFixedEnabled,
     lastUpdatedAt,
+    autoDisabled,
+    clearAutoDisabled,
   };
 }
