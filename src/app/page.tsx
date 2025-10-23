@@ -7,11 +7,17 @@ import HistoryCard from '@/components/HistoryCard';
 import { useExchangeRate } from '@/hooks/useExchangeRate';
 import { useConversion } from '@/hooks/useConversion';
 import { useHistory } from '@/hooks/useHistory';
+import { useEffect, useState } from 'react';
 
 export default function HomePage() {
+  const [isMounted, setIsMounted] = useState(false);
   const exchange = useExchangeRate();
   const conversion = useConversion('EUR', exchange.used);
   const history = useHistory(5);
+
+  useEffect(() => {
+    setIsMounted(true);
+  }, []);
 
   const handleCommit = () => {
     if (!Number.isFinite(conversion.numericIn) || conversion.numericIn < 0) return;
@@ -24,6 +30,17 @@ export default function HomePage() {
       outputValue: conversion.amountOut,
     });
   };
+
+  if (!isMounted) {
+    return (
+      <Container maxWidth="lg" className="px-4 py-6 md:py-10 space-y-4 md:space-y-6">
+        <div className="space-y-3">
+          <h1 className="text-2xl md:text-3xl font-bold">Convertisseur EUR/USD</h1>
+          <p className="text-gray-600">Chargement...</p>
+        </div>
+      </Container>
+    );
+  }
 
   return (
     <Container maxWidth="lg" className="px-4 py-6 md:py-10 space-y-4 md:space-y-6">

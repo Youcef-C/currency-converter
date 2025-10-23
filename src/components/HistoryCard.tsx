@@ -4,7 +4,7 @@ import { Card, CardContent, CardHeader, Divider, IconButton, Table, TableBody, T
 import DeleteSweepIcon from '@mui/icons-material/DeleteSweep';
 import { ConversionHistoryItem } from '@/types';
 import { formatCurrency } from '@/utils/currency';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 
 export default function HistoryCard({
   items,
@@ -14,6 +14,11 @@ export default function HistoryCard({
   onClear: () => void;
 }) {
   const [expanded, setExpanded] = useState(true);
+  const [isMounted, setIsMounted] = useState(false);
+
+  useEffect(() => {
+    setIsMounted(true);
+  }, []);
 
   return (
     <Card className="shadow-md">
@@ -52,7 +57,9 @@ export default function HistoryCard({
                   <span className="text-gray-500">Sortie</span>
                   <span>{formatCurrency(it.outputValue, it.toCurrency)}</span>
                 </div>
-                <div className="text-xs text-gray-400 mt-1">{new Date(it.timestamp).toLocaleTimeString()}</div>
+                <div className="text-xs text-gray-400 mt-1">
+                  {isMounted ? new Date(it.timestamp).toLocaleTimeString() : '...'}
+                </div>
               </div>
             </Collapse>
           ))}
@@ -82,7 +89,9 @@ export default function HistoryCard({
                   <TableCell className="tabular-nums">{it.usedRate.toFixed(4)}</TableCell>
                   <TableCell>{formatCurrency(it.inputValue, it.fromCurrency)}</TableCell>
                   <TableCell>{formatCurrency(it.outputValue, it.toCurrency)}</TableCell>
-                  <TableCell className="whitespace-nowrap">{new Date(it.timestamp).toLocaleTimeString()}</TableCell>
+                  <TableCell className="whitespace-nowrap">
+                    {isMounted ? new Date(it.timestamp).toLocaleTimeString() : '...'}
+                  </TableCell>
                 </TableRow>
               ))}
             </TableBody>
