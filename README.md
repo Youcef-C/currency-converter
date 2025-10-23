@@ -1,36 +1,102 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Convertisseur EUR/USD
 
-## Getting Started
+Single Page Application mobile-first de conversion de devises construite avec Next.js, TypeScript, Tailwind CSS et Material-UI.
 
-First, run the development server:
+## 🎯 Fonctionnalités
+
+- **Taux de change dynamique** : Taux EUR/USD initialisé à 1.1, actualisé toutes les 3 secondes avec une variation aléatoire de ±0.05
+- **Indicateur de tendance** : Affichage visuel de la tendance (↑/↓/–) avec animation
+- **Taux fixe optionnel** : Possibilité de forcer un taux de change personnalisé
+- **Conversion bidirectionnelle** : Inversion EUR ↔ USD en un clic, l'ancienne sortie devient la nouvelle entrée
+- **Responsive mobile-first** : Interface optimisée pour mobile (cartes empilées) et desktop (grille 2 colonnes, tableau)
+- **Accessibilité** : Labels ARIA, annonces live, navigation clavier, inputMode pour claviers mobiles
+
+## 🚀 Démarrage rapide
+
+### Prérequis
+
+- Node.js 18+ (recommandé: 20 ou 22)
+- npm 9+
+
+### Installation
 
 ```bash
+# Installation des dépendances
+npm install
+
+# Démarrage du serveur de développement
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+Ouvrez [http://localhost:3000](http://localhost:3000) dans votre navigateur.
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+## 📦 Build pour la production
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+### Export statique (local)
 
-## Learn More
+```bash
+npm run build
+```
 
-To learn more about Next.js, take a look at the following resources:
+Le résultat statique est généré dans le dossier `out/`.
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+### Déploiement GitHub Pages
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+Pour déployer sur GitHub Pages, la configuration est déjà prête :
 
-## Deploy on Vercel
+1. **Créer un dépôt GitHub** et pousser le code
+2. **Activer GitHub Pages** dans les paramètres du dépôt (Settings > Pages)
+3. **Configurer GitHub Actions** : le workflow `.github/workflows/deploy.yml` est déjà fourni
+4. À chaque push sur `main`, l'application sera automatiquement déployée
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+**Note** : Si votre dépôt s'appelle différemment, ajustez `NEXT_PUBLIC_BASE_PATH` dans le workflow.
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+## 🛠️ Stack technique
+
+- **Framework** : Next.js 16 (App Router) avec export statique
+- **Language** : TypeScript
+- **Styling** : Tailwind CSS + Material-UI (MUI) v6
+- **État** : React Hooks (useState, useEffect, useMemo, useCallback)
+- **Animations** : Keyframes CSS personnalisées
+- **Accessibilité** : ARIA labels, live regions, focus management
+
+## 📁 Structure du projet
+
+```
+src/
+├── app/
+│   ├── globals.css      # Styles globaux + animations
+│   ├── layout.tsx        # Layout avec provider MUI
+│   ├── page.tsx          # Page principale
+│   └── providers.tsx     # ThemeProvider MUI
+├── components/
+│   ├── ConverterCard.tsx      # Conversion avec inversion
+│   ├── ExchangeRateCard.tsx   # Affichage du taux dynamique
+│   └── HistoryCard.tsx        # Historique responsive
+├── hooks/
+│   ├── useConversion.ts       # Logique de conversion
+│   ├── useExchangeRate.ts     # Gestion du taux (dynamique + fixe)
+│   └── useHistory.ts          # Historique (max 5 éléments)
+├── types/
+│   └── index.ts               # Types TypeScript
+└── utils/
+    └── currency.ts            # Utilitaires (formatage, calculs)
+```
+
+## 🎨 Principes de design
+
+- **Mobile-first** : Approche responsive avec breakpoints Tailwind
+- **UX fluide** : Animations d'entrée, highlight des changements, tooltips explicatifs
+- **Accessibilité** : Navigation clavier, annonces ARIA live, inputMode approprié
+- **Cohérence visuelle** : Palette de couleurs harmonieuse, espacement régulier
+
+## 📝 Livrables
+
+- ✅ Code source sur GitHub
+- ✅ `todo.md` : Améliorations et compromis
+- ✅ `roadmap.md` : Fonctionnalités futures
+- ✅ Application déployable sur GitHub Pages
+
+## 📄 Licence
+
+Ce projet est un test technique pour CACIB-GIT-CMI.
