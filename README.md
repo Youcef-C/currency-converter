@@ -40,17 +40,6 @@ npm run build
 
 Le résultat statique est généré dans le dossier `out/`.
 
-### Déploiement GitHub Pages
-
-Pour déployer sur GitHub Pages, la configuration est déjà prête :
-
-1. **Créer un dépôt GitHub** et pousser le code
-2. **Activer GitHub Pages** dans les paramètres du dépôt (Settings > Pages)
-3. **Configurer GitHub Actions** : le workflow `.github/workflows/deploy.yml` est déjà fourni
-4. À chaque push sur `main`, l'application sera automatiquement déployée
-
-**Note** : Si votre dépôt s'appelle différemment, ajustez `NEXT_PUBLIC_BASE_PATH` dans le workflow.
-
 ## 🛠️ Stack technique
 
 - **Framework** : Next.js 16 (App Router) avec export statique
